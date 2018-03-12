@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <p>{{ foo }}</p>
+    <!-- this will no longer update `foo`! -->
+    <button @click="foo = 'baz'">Change it</button>
+</div>
+
+<div id="example"></div>
+<input type="text" id="t1">
+
+<script>
+    // var data = {a: 1};
+    // var vm = new Vue({
+    //     data: data
+    // });
+    // console.log(vm.a === data.a);
+    // vm.a = 2;
+    // console.log(data.a);
+    // //--------------------
+    // var obj = {
+    //     foo: 'bar'
+    // }
+    //
+    // // Object.freeze(obj)
+    //
+    // new Vue({
+    //     el: '#app',
+    //     data: obj
+    // })
+    //--------------------
+    var data = { a: 1 }
+    var vm = new Vue({
+        el: '#example',
+        data: data
+    })
+
+    console.log(vm.$data === data); // => true
+    console.log(vm.$el === document.getElementById('example')); // => true
+
+    // $watch is an instance method
+    vm.$watch('a', function (newValue, oldValue) {
+        // This callback will be called when `vm.a` changes
+        console.log(oldValue+' to '+ newValue);
+    })
+
+    var t1 = document.getElementById('t1');
+    t1.onkeydown = function (ev) {
+        if (ev && ev.keyCode === 13) {
+            console.log(t1.value);
+            data.a = t1.value;
+        }
+    }
+
+
+</script>
+</body>
+</html>
